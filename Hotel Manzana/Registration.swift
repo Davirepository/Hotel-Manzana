@@ -40,3 +40,4 @@ struct RoomType: Equatable {
         return left.id == right.id
     }
 }
+

@@ -58,8 +58,10 @@ class AddregistrationTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         
         roomsType = RoomType.all
+        
         
         // consider the current day from the beginning, due to the time difference in different countries
         let midnightToday = Calendar.current.startOfDay(for: Date())
@@ -230,4 +232,25 @@ extension AddregistrationTableViewController: SelectTypeRoomTableViewControllerD
         updateRoomType()
     }
     
+}
+
+extension AddregistrationTableViewController {
+    // Убираем клавиатуру при нажатии на поле(не забываем вызвать этот метод во вьюдидлоад self.hideKeyboardWhenTappedAround())
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(AddregistrationTableViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        self.tableView.addGestureRecognizer(tap)
+    }
+    @objc func dismissKeyboard() {
+        self.tableView.endEditing(true)
+    }
+}
+
+extension AddregistrationTableViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
